@@ -1,14 +1,1 @@
-# E-commerce-Admin-Website
-create with react.js
-
-first command
-1. npm install or yarn install
-2. npm run build
-3. npm start
-
-user for login
-user super_admin@test.com
-pass super_admin
-
-web admin
-https://ecommerce-admin-43e81.firebaseapp.com/
+this project use server api together with branch https://github.com/paoonline/nodejs-unitTest
