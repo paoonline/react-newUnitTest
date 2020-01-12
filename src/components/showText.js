@@ -1,7 +1,9 @@
 import React from 'react';
 
-export default function ShowTexts(props) {
+const ShowText = () => {
     return (
-        <p id={props.id}>show</p>
+        <p id="showtext">show</p>
     )
 }
+
+export default ShowText

@@ -1,13 +1,20 @@
-import React, { useState } from 'react';
-import ShowTexts from './components/showText'
+import React, { useState, useEffect } from 'react';
+import { ShowText, DataList } from './components'
+import { ProductList } from './functions/service'
 
-export default function App() {
+export default function App()  {
   const [show, setShow] = useState(false)
+  const [data, setData] = useState([])
+
+  useEffect(() => {
+    ProductList().then(val => setData(val))
+  }, [])
 
   return (
     <div>
       <button onClick={() => setShow(!show)}>Submit</button>
-      {show && <ShowTexts />}
+      {show && <ShowText />}
+      {data.length > 0 && <DataList data={data}/>}
     </div>
   )
 }
