@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import App from '../App';
 import { mount } from 'enzyme'
-import { ProductList } from './functions/service'
-import { DataList } from './components/'
+import { ProductList } from '../functions/service'
+import { DataList } from '../components'
 
 let wrapper;
 
