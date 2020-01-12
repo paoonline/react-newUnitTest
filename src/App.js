@@ -1,58 +1,20 @@
-import React from 'react';
-import 'antd/dist/antd.css';
-import { Admin } from './layout'
-import { Login, ProductList, ProductAdd, ProductEdit } from './page'
-import { Switch, Route, withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
-import * as actions from './store/action/index'
+import React, { useState, useEffect } from 'react';
+import { ShowText, DataList } from './components'
+import { ProductList } from './functions/service'
 
-const App = (props) => {
-  if (!props.isAuthenticated) {
-    props.onTryAutoSignup()
-  }
+export default function App()  {
+  const [show, setShow] = useState(false)
+  const [data, setData] = useState([])
 
-  let auth = (
-    <Switch>
-      <Route path="/login" component={() => props.isAuthenticated ? null : AuthenRoute(Login)} />
-      <Route exact path="/" component={() => AuthenRoute(<ProductList token={localStorage.getItem('token')} />)} />
-      <Route path="/products/productList" component={() => AuthenRoute(<ProductList token={localStorage.getItem('token')} />)} />
-      <Route path="/products/productAdd" component={() => AuthenRoute(<ProductAdd token={localStorage.getItem('token')}/>)} />
-      <Route path="/products/productEdit/:id" component={() => AuthenRoute(<ProductEdit token={localStorage.getItem('token')}/>)} />
-    </Switch>
+  useEffect(() => {
+    ProductList().then(val => setData(val))
+  }, [])
+
+  return (
+    <div>
+      <button onClick={() => setShow(!show)}>Submit</button>
+      {show && <ShowText />}
+      {data.length > 0 && <DataList data={data}/>}
+    </div>
   )
-
-  const AuthenRoute = Component => {
-    let ComponentAuthen = null
-
-    //authen
-    if (props.isAuthenticated) {
-      ComponentAuthen = (
-        <Admin>
-          {Component}
-        </Admin>
-      )
-    }
-    //not authen
-    if (!props.isAuthenticated) {
-      ComponentAuthen = (
-        <Login />
-      )
-    }
-    return ComponentAuthen
-  }
-  return auth
 }
-
-const mapStateToProps = state => {
-  return {
-    isAuthenticated: state.auth.token !== null // token from authen
-  }
-}
-
-const mapDispatchToProps = dispatch => {
-  return {
-    onTryAutoSignup: () => dispatch(actions.authCheckState())
-  }
-}
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
